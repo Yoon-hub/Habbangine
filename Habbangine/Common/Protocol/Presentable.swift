@@ -7,3 +7,12 @@
 //
 
 import Foundation
+
+import RxSwift
+
+protocol Presentable {
+    associatedtype ViewModelType: ViewModelable
+    
+    var viewModel: ViewModelType {get}
+    var stateObservable: Observable<ViewModelType.State> {get}
+}
