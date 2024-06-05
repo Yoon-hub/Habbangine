@@ -15,4 +15,6 @@ protocol Presentable {
     
     var viewModel: ViewModelType {get}
     var stateObservable: Observable<ViewModelType.State> {get}
+    
+    func handleOutput(_ state: ViewModelType.State)
 }

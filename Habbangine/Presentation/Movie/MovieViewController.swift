@@ -8,11 +8,10 @@
 
 import UIKit
 
-final class MovieViewController: UIViewController {
+final class MovieViewController: CommonViewController<MoviewViewModel> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
     }
-    
 }
