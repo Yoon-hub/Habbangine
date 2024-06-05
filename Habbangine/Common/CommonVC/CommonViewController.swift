@@ -41,21 +41,16 @@ class CommonViewController<ViewModel: ViewModelable>: UIViewController, Presenta
     }
     
     func handleOutput(_ state: ViewModelType.State) { }
-}
 
-
-// MARK: - Set
-extension CommonViewController {
+    // MARK: - Set
     func set() {
         setUI()
         viewModelOutPutbind()
     }
-    func setUI() {}
-}
-
-// MARK: - ViewModel Interaction
-extension CommonViewController {
     
+    func setUI() {view.backgroundColor = .white}
+    
+    // MARK: - ViewModel Interaction
     private func viewModelOutPutbind() {
         viewModel.output
             .bind(to: stateSubject)

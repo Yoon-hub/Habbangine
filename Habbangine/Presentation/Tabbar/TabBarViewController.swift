@@ -26,7 +26,7 @@ final class TabBarViewController: UITabBarController {
         tabBar.tintColor = UIColor(named: "mainColor") // 선택된 아이템의 색상
         
         // movie
-        let movieVC = MovieViewController()
+        let movieVC = MovieViewController(viewModel: MovieViewModel())
         movieVC.tabBarItem = UITabBarItem(title: "영화", image: resizeImage(image: UIImage(named: "movieIcon")!, targetSize: CGSize(width: 22, height: 22)), tag: 0)
         
         // museum

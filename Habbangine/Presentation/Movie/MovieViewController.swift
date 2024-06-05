@@ -8,10 +8,10 @@
 
 import UIKit
 
-final class MovieViewController: CommonViewController<MoviewViewModel> {
+final class MovieViewController: CommonViewController<MovieViewModel> {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = .white
+    override func handleOutput(_ state: MovieViewModel.State) {
+        
     }
 }
+

@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import RxRelay
 
-final class MoviewViewModel: ViewModelable {
+final class MovieViewModel: ViewModelable {
 
     enum State {
         
