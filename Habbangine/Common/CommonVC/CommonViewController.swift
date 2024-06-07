@@ -46,9 +46,11 @@ class CommonViewController<ViewModel: ViewModelable>: UIViewController, Presenta
     func set() {
         setUI()
         viewModelOutPutbind()
+        setNavigationBar()
     }
     
     func setUI() {view.backgroundColor = .white}
+    func setNavigationBar() {}
     
     // MARK: - ViewModel Interaction
     private func viewModelOutPutbind() {

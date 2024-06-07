@@ -27,12 +27,13 @@ final class TabBarViewController: UITabBarController {
         
         // movie
         let movieVC = MovieViewController(viewModel: MovieViewModel())
-        movieVC.tabBarItem = UITabBarItem(title: "영화", image: resizeImage(image: UIImage(named: "movieIcon")!, targetSize: CGSize(width: 22, height: 22)), tag: 0)
+        let movieNavi = UINavigationController(rootViewController: movieVC)
+        movieNavi.tabBarItem = UITabBarItem(title: "영화", image: resizeImage(image: UIImage(named: "movieIcon")!, targetSize: CGSize(width: 22, height: 22)), tag: 0)
         
         // museum
         let museumVC = MuseumViewController()
         museumVC.tabBarItem = UITabBarItem(title: "뮤지엄", image: resizeImage(image: UIImage(named: "museumIcon")!, targetSize: CGSize(width: 22, height: 22)), tag: 1)
         
-        self.viewControllers = [movieVC, museumVC]
+        self.viewControllers = [movieNavi, museumVC]
     }
 }
