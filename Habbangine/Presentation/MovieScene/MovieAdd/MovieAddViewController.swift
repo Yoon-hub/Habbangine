@@ -34,7 +34,12 @@ final class MovieAddViewController: CommonViewController<MovieAddViewModel> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func set() {
+        super.set()
         bind()
+        collectionViewBind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,6 +58,23 @@ extension MovieAddViewController {
     }
 }
 
+// MARK: - CollectionView
+extension MovieAddViewController {
+    private func collectionViewBind() {
+        viewModel.imageList
+            .bind(to: movieAddView.imageCollectionView.rx.items(cellIdentifier: "ImageListCollectionViewCell", cellType: ImageListCollectionViewCell.self)) { index, item, cell in
+                cell.bind(image: item)
+            }
+            .disposed(by: disposeBag)
+        
+        movieAddView.imageCollectionView.rx.itemSelected
+            .bind { [weak self] indexPath in
+                self?.viewModel.input(.tapDeleteImage(indexPath))
+            }
+            .disposed(by: disposeBag)
+    }
+}
+
 // MARK: - Gallery
 extension MovieAddViewController: PHPickerViewControllerDelegate {
     
@@ -61,11 +83,10 @@ extension MovieAddViewController: PHPickerViewControllerDelegate {
         
         for result in results {
             if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
-                result.itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                result.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
                     if let image = image as? UIImage {
                         DispatchQueue.main.async {
-                            print("추가했다능")
-                            // 여기서 컬렉션뷰 또는 다른 UI를 업데이트합니다.
+                            self?.viewModel.input(.imageWasSelected(image))
                         }
                     }
                 }

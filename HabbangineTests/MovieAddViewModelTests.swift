@@ -28,7 +28,7 @@ final class MovieAddViewModel_Tests: QuickSpec {
         describe("MovieAddViewModel에서") {
             beforeEach { setUp() }
             
-            context("사진이 선택되면") {
+            context("사진이 picker에서 선택되면") {
                 beforeEach { viewModel.input(.imageWasSelected(UIImage(systemName: "pencil")!)) }
                 
                 it("사진 리스트에 추가") {
@@ -41,7 +41,19 @@ final class MovieAddViewModel_Tests: QuickSpec {
                     
                     expect(viewController.stateObservable)
                         .first(timeout: timeout)
-                        .toNot(equal(expected))
+                        .toEventually(equal(expected))
+                }
+            }
+            
+            context("사진 삭제를 위해 선택되면") {
+                beforeEach {
+                    viewModel.input(.imageWasSelected(UIImage(systemName: "pencil")!))
+                    viewModel.input(.tapDeleteImage(IndexPath(row: 0, section: 0)))
+                }
+                
+                it("사진 리스트에서 삭제") {
+                    expect(viewModel.imageList.value.count)
+                        .toEventually(equal(0))
                 }
             }
         }

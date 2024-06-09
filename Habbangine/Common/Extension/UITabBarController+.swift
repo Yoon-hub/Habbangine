@@ -8,10 +8,11 @@
 
 import UIKit
 
-extension UITabBarController {
-    
+public protocol ResizableImage {}
+
+extension ResizableImage {
     // 이미지 크기 조정 함수
-    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+    public func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
         let size = image.size
         
         let widthRatio  = targetSize.width  / size.width
@@ -38,3 +39,5 @@ extension UITabBarController {
         return scaledImage!
     }
 }
+
+extension NSObject: ResizableImage {}

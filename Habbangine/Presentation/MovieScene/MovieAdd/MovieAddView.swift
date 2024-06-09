@@ -15,10 +15,11 @@ final class MovieAddView: UIView {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 10
         
+        layout.itemSize = CGSize(width: 72, height: 72)
         layout.scrollDirection = .horizontal
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemGray5
+        collectionView.register(ImageListCollectionViewCell.self, forCellWithReuseIdentifier: "ImageListCollectionViewCell")
         return collectionView
     }()
     
@@ -31,7 +32,15 @@ final class MovieAddView: UIView {
     }
     
     let titleTextField = UITextField().then {
-        $0.placeholder = "제목"
+        $0.placeholder = "title"
+    }
+    
+    let datePicker = UIDatePicker(frame: .zero).then {
+        $0.datePickerMode = .date
+    }
+    
+    let contentTextField = UITextView().then {
+        $0.font = UIFont.systemFont(ofSize: 15)
     }
     
     override init(frame: CGRect) {
@@ -49,7 +58,7 @@ final class MovieAddView: UIView {
     }
     
     private func set() {
-        [imagePlusButton, imageCollectionView, titleTextField].forEach { self.addSubview($0) }
+        [imagePlusButton, imageCollectionView, titleTextField, datePicker, contentTextField].forEach { self.addSubview($0) }
     }
     
     private func configure() {
@@ -66,11 +75,26 @@ final class MovieAddView: UIView {
             .right(16)
             .height(104)
         
-        titleTextField.pin
+        datePicker.pin
             .below(of: imageCollectionView)
             .marginTop(24)
-            .left(16)
             .right(16)
             .height(40)
+            .width(78)
+        
+        titleTextField.pin
+            .below(of: imageCollectionView)
+            .before(of: datePicker)
+            .marginTop(24)
+            .marginRight(12)
+            .left(16)
+            .height(40)
+        
+        contentTextField.pin
+            .below(of: titleTextField)
+            .marginTop(16)
+            .horizontally(16)
+            .bottom(16)
+        
     }
 }

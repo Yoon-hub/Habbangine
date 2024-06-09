@@ -14,6 +14,7 @@ final class MovieAddViewModel: ViewModelable {
     
     enum Action {
         case imageWasSelected(UIImage)
+        case tapDeleteImage(IndexPath)
     }
 
     enum State {
@@ -34,6 +35,11 @@ final class MovieAddViewModel: ViewModelable {
             let imageList = self.imageList.value
             self.imageList.accept(imageList + [image])
             outputSubject.onNext(.updateImageList(self.imageList.value))
+        case .tapDeleteImage(let indexPath):
+            var imageList = self.imageList.value
+            imageList.remove(at: indexPath.row)
+            self.imageList.accept(imageList)
+            outputSubject.onNext(.updateImageList(imageList))
         }
     }
 }
