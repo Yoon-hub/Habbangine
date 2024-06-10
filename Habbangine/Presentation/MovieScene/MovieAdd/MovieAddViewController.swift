@@ -48,6 +48,10 @@ final class MovieAddViewController: CommonViewController<MovieAddViewModel> {
     override func viewWillAppear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = true
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            self.view.endEditing(true)
+    }
 }
 
 // MARK: - RxBinding
@@ -56,6 +60,30 @@ extension MovieAddViewController {
         movieAddView.imagePlusButton.rx.tap
             .bind { [weak self] in
                 self?.openPhotoLibrary()
+            }
+            .disposed(by: disposeBag)
+        
+        
+        // TextView PlaceHolder
+        movieAddView.contentTextView.rx.didBeginEditing
+            .bind { [weak self] in
+                guard let self else {return}
+                if self.movieAddView.contentTextView.text == self.movieAddView.textViewPlaceHolderText {
+                    self.movieAddView.contentTextView.text = ""
+                    self.movieAddView.contentTextView.textColor = .black
+                }
+                
+            }
+            .disposed(by: disposeBag)
+        
+        movieAddView.contentTextView.rx.didEndEditing
+            .bind { [weak self] in
+                guard let self else {return}
+                
+                if self.movieAddView.contentTextView.text == "" {
+                    self.movieAddView.contentTextView.text = self.movieAddView.textViewPlaceHolderText
+                    self.movieAddView.contentTextView.textColor = .systemGray3
+                }
             }
             .disposed(by: disposeBag)
     }
@@ -109,7 +137,7 @@ extension MovieAddViewController: PHPickerViewControllerDelegate {
     }
 }
 
-// MARK: - RxKeyboard
+// MARK: - Keyboard
 extension MovieAddViewController {
     
     private func keyboardBind() {
@@ -120,5 +148,6 @@ extension MovieAddViewController {
             }
             .disposed(by: disposeBag)
     }
+    
     
 }

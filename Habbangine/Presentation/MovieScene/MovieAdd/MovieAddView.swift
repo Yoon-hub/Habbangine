@@ -32,17 +32,28 @@ final class MovieAddView: UIView {
     }
     
     let titleTextField = UITextField().then {
-        $0.placeholder = "title"
+        $0.attributedPlaceholder = NSAttributedString(
+                  string: "title",
+                  attributes: [
+                      .foregroundColor: UIColor.systemGray3, // 원하는 색상
+                      .font: UIFont.systemFont(ofSize: 15) // 원하는 폰트
+                  ]
+              )
     }
     
     let datePicker = UIDatePicker(frame: .zero).then {
         $0.datePickerMode = .date
     }
     
-    let contentTextView = UITextView().then {
-        $0.backgroundColor = .systemGray6
+    lazy var contentTextView = UITextView().then {
+        $0.textContainerInset = .zero  // 여백 설정
+        $0.textContainer.lineFragmentPadding = 0  // 여백 설정
+        $0.text = textViewPlaceHolderText
+        $0.textColor = .systemGray3
         $0.font = UIFont.systemFont(ofSize: 15)
     }
+    
+    let textViewPlaceHolderText = "content      "
     
     var keyBoardHeight: CGFloat = 0
     
