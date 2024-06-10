@@ -21,7 +21,9 @@ final class MovieAddViewModel_Tests: QuickSpec {
         let timeout: TimeInterval = 3
         
         func setUp() {
-            viewModel = MovieAddViewModel()
+            let movieDataService = MovieDataService.shared
+            let dependency = MovieAddViewModel.Dependency(movieDataService: movieDataService)
+            viewModel = MovieAddViewModel(dependency: dependency)
             viewController = ViewControllerMock(viewModel: viewModel)
         }
         
@@ -54,6 +56,22 @@ final class MovieAddViewModel_Tests: QuickSpec {
                 it("사진 리스트에서 삭제") {
                     expect(viewModel.imageList.value.count)
                         .toEventually(equal(0))
+                }
+            }
+            
+            
+            context("저장 버튼을 눌렀을 때") {
+                beforeEach {
+                    viewModel.input(.tapSaveButton("", ""))
+                }
+                
+                it("저장이 불가능한 상황이면 에러메세지 ") {
+                    let expected = MovieAddViewModel.State.toastSaveInvalid(MovieAddViewModel.ErrorMessage.imageIsEmpty.errorDescription!)
+                    
+                    expect(viewController.stateObservable)
+                        .first(timeout: timeout)
+                        .toEventually(equal(expected))
+                    
                 }
             }
         }
