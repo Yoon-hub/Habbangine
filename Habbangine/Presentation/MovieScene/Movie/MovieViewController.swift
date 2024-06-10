@@ -48,7 +48,10 @@ extension MovieViewController {
 extension MovieViewController {
     private func moveToMoviewAdd() {
         let movieAddView = MovieAddView()
-        let movieAddViewModel = MovieAddViewModel()
+        
+        let movieDataService = MovieDataService.shared
+        let dependency = MovieAddViewModel.Dependency(movieDataService: movieDataService)
+        let movieAddViewModel = MovieAddViewModel(dependency: dependency)
         
         let movieAddViewController = MovieAddViewController(movieAddView: movieAddView, viewModel: movieAddViewModel)
         self.navigationController?.pushViewController(movieAddViewController, animated: true)

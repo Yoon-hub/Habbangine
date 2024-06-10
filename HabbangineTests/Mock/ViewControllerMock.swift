@@ -36,6 +36,8 @@ extension MovieAddViewModel.State: Equatable {
         switch (lhs, rhs) {
         case let (.updateImageList(lhsCount), .updateImageList(rhsCount)):
             return lhsCount == rhsCount
+        case let (.toastSaveInvalid(lhsCount), .toastSaveInvalid(rhsCount)):
+            return lhsCount == rhsCount
         default:
             return false
         }

@@ -50,7 +50,23 @@ final class MovieAddViewController: CommonViewController<MovieAddViewModel> {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-            self.view.endEditing(true)
+        self.view.endEditing(true)
+    }
+    
+    override func setNavigationBar() {
+        let saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = saveButton
+    }
+    
+    override func handleOutput(_ state: MovieAddViewModel.State) {
+        super.handleOutput(state)
+        
+        switch state {
+        case .updateImageList(let array):
+            print("이미지 업데이트")
+        case .toastSaveInvalid(let errorMessage):
+            showAlert(title: "오류", cotent: errorMessage)
+        }
     }
 }
 
@@ -84,6 +100,18 @@ extension MovieAddViewController {
                     self.movieAddView.contentTextView.text = self.movieAddView.textViewPlaceHolderText
                     self.movieAddView.contentTextView.textColor = .systemGray3
                 }
+            }
+            .disposed(by: disposeBag)
+        
+        // Save Button Tap
+        self.navigationItem.rightBarButtonItem?.rx.tap
+            .withUnretained(self) // self를 유지하고 함께 사용
+            .map { vc, _ in
+                return (vc.movieAddView.titleTextField.text, vc.movieAddView.contentTextView.text)
+            }
+            .bind { [weak self] title, content in
+                guard let self = self else { return }
+                self.viewModel.input(.tapSaveButton(title, content))
             }
             .disposed(by: disposeBag)
     }
