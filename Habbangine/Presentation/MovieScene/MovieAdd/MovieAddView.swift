@@ -39,9 +39,12 @@ final class MovieAddView: UIView {
         $0.datePickerMode = .date
     }
     
-    let contentTextField = UITextView().then {
+    let contentTextView = UITextView().then {
+        $0.backgroundColor = .systemGray6
         $0.font = UIFont.systemFont(ofSize: 15)
     }
+    
+    var keyBoardHeight: CGFloat = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,7 +61,7 @@ final class MovieAddView: UIView {
     }
     
     private func set() {
-        [imagePlusButton, imageCollectionView, titleTextField, datePicker, contentTextField].forEach { self.addSubview($0) }
+        [imagePlusButton, imageCollectionView, titleTextField, datePicker, contentTextView].forEach { self.addSubview($0) }
     }
     
     private func configure() {
@@ -89,12 +92,19 @@ final class MovieAddView: UIView {
             .marginRight(12)
             .left(16)
             .height(40)
-        
-        contentTextField.pin
+
+        contentTextView.pin
             .below(of: titleTextField)
             .marginTop(16)
             .horizontally(16)
-            .bottom(16)
-        
+            .bottom(36 + keyBoardHeight)
+    }
+}
+
+extension MovieAddView {
+    
+    func keyBoardActive(keyBoardHeight: CGFloat) {
+        self.keyBoardHeight = keyBoardHeight
+        self.configure()
     }
 }

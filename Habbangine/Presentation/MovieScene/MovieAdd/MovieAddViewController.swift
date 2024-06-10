@@ -11,6 +11,7 @@ import PhotosUI
 import RxSwift
 import RxCocoa
 import RxRelay
+import RxKeyboard
 
 final class MovieAddViewController: CommonViewController<MovieAddViewModel> {
     
@@ -40,6 +41,8 @@ final class MovieAddViewController: CommonViewController<MovieAddViewModel> {
         super.set()
         bind()
         collectionViewBind()
+        keyboardBind()
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -104,4 +107,18 @@ extension MovieAddViewController: PHPickerViewControllerDelegate {
         picker.delegate = self
         present(picker, animated: true, completion: nil)
     }
+}
+
+// MARK: - RxKeyboard
+extension MovieAddViewController {
+    
+    private func keyboardBind() {
+        RxKeyboard.instance.visibleHeight
+            .drive { [weak self] keyBoardHeight in
+                guard let self else { return }
+                self.movieAddView.keyBoardActive(keyBoardHeight: keyBoardHeight)
+            }
+            .disposed(by: disposeBag)
+    }
+    
 }
